@@ -70,3 +70,14 @@ Non trouvé publiquement dans les sources consultées :
 - [ ] Remplacer l’URL du sitemap par le domaine final.
 - [ ] Vérifier le rendu mobile/tablette/desktop.
 - [ ] Ne pas ajouter de logos clients, chiffres ou certifications sans preuve.
+
+
+## Images libres de droit
+
+Le site utilise des visuels abstraits SVG créés pour le projet et trois photos distantes issues d’Unsplash, utilisées sous Unsplash License :
+
+- `photo-1552664730-d307ca884978` — atelier / cadrage équipe
+- `photo-1460925895917-afdab827c52f` — analytics / dashboard
+- `photo-1551434678-e076c223a692` — travail d’équipe / organisation
+
+À remplacer par des photos client si Rocket Science SRL fournit des visuels propriétaires.

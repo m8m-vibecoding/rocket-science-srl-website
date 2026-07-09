@@ -25,6 +25,12 @@ const problems = ['Sous-utilisation', 'Données dispersées', 'Trop de manuel', 
 const method = [['01', 'Observer'], ['02', 'Structurer'], ['03', 'Automatiser'], ['04', 'Adopter']];
 const useCases = ['Lead qualification', 'Pipeline', 'Sales ops', 'Reporting', 'Data cleanup', 'Automation', 'Ops sync'];
 
+const photos = {
+  team: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
+  analytics: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80',
+  workshop: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80',
+};
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.45, delay }}>{children}</motion.div>;
 }
@@ -33,8 +39,9 @@ function Float({ children, delay = 0 }: { children: React.ReactNode; delay?: num
   return <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay }}>{children}</motion.div>;
 }
 
-function SectionKicker({ children }: { children: React.ReactNode }) {
-  return <p className="mb-8 flex items-center gap-3 text-xs font-black uppercase tracking-[0.24em] text-slate-500"><span className="h-2 w-2 rounded-full bg-accent" />{children}</p>;
+function SectionKicker({ children }: { children: string }) {
+  const items = Array.from({ length: 10 }, (_, index) => <span key={index}>{children}</span>);
+  return <div className="label-strip mb-10 border-y border-current/25 py-3 text-xs font-black uppercase tracking-[0.28em] opacity-80"><div className="label-track flex w-max gap-8">{items}</div></div>;
 }
 
 function Cta({ href = '#contact', children = 'Planifier un échange', dark = false }: { href?: string; children?: React.ReactNode; dark?: boolean }) {
@@ -43,6 +50,10 @@ function Cta({ href = '#contact', children = 'Planifier un échange', dark = fal
 
 function Visual({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
   return <div className={`visual-card group overflow-hidden rounded-[2rem] border border-ink/10 shadow-[0_30px_90px_rgba(17,17,17,.18)] ${className}`}><img src={src} alt={alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]" /></div>;
+}
+
+function Photo({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+  return <figure className={`photo-card group overflow-hidden rounded-[2rem] border border-ink/10 bg-ink shadow-[0_28px_90px_rgba(17,17,17,.22)] ${className}`}><img src={src} alt={alt} loading="lazy" className="h-full min-h-[280px] w-full object-cover grayscale contrast-125 transition duration-700 group-hover:scale-[1.04] group-hover:grayscale-0" /></figure>;
 }
 
 export default function App() {
@@ -68,8 +79,11 @@ export default function App() {
           </Reveal>
           <Reveal delay={0.08}>
             <div className="grid gap-5">
-              <Float><Visual src={flowImage} alt="Schéma abstrait du flux Salesforce : leads, automatisation, reporting" /></Float>
-              <p className="max-w-xl text-xl font-semibold leading-tight tracking-[-0.04em]">Structurer, automatiser, rendre Salesforce vraiment exploitable.</p>
+              <div className="grid gap-5 sm:grid-cols-[1.1fr_.9fr]">
+                <Float><Visual src={flowImage} alt="Schéma abstrait du flux Salesforce : leads, automatisation, reporting" /></Float>
+                <Photo src={photos.analytics} alt="Dashboard et analytics sur ordinateur portable" className="min-h-[360px] sm:translate-y-10" />
+              </div>
+              <p className="max-w-xl text-xl font-semibold leading-tight tracking-[-0.04em]">Structurer. Automatiser. Exploiter.</p>
             </div>
           </Reveal>
         </div>
@@ -83,7 +97,7 @@ export default function App() {
           <SectionKicker>Constat</SectionKicker>
           <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
             <Reveal><h2 className="text-[clamp(3rem,7vw,8rem)] font-black uppercase leading-[0.88] tracking-[-0.075em]">Le CRM ne manque pas de puissance. Il manque de clarté.</h2></Reveal>
-            <Reveal delay={0.08}><Visual src={boardImage} alt="Tableau de bord opérationnel abstrait" className="border-cream/15" /></Reveal>
+            <Reveal delay={0.08}><div className="grid gap-5 md:grid-cols-2"><Photo src={photos.workshop} alt="Atelier opérationnel en équipe" className="border-cream/15" /><Visual src={boardImage} alt="Tableau de bord opérationnel abstrait" className="border-cream/15" /></div></Reveal>
           </div>
           <div className="mt-12 grid gap-px overflow-hidden rounded-[2rem] border border-cream/15 bg-cream/15 sm:grid-cols-3 lg:grid-cols-6">
             {problems.map((problem) => <div key={problem} className="bg-ink p-5"><Check className="mb-8 text-accent" size={18} /><p className="text-lg font-black uppercase tracking-[-0.04em]">{problem}</p></div>)}
@@ -96,7 +110,7 @@ export default function App() {
           <SectionKicker>Services</SectionKicker>
           <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
             <h2 className="max-w-5xl text-[clamp(3rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Du process au système.</h2>
-            <Visual src={methodImage} alt="Carte visuelle de méthode en quatre étapes" />
+            <div className="grid gap-5 md:grid-cols-2"><Photo src={photos.team} alt="Session de travail et cadrage de projet" /><Visual src={methodImage} alt="Carte visuelle de méthode en quatre étapes" /></div>
           </div>
           <div className="mt-14 border-t border-ink">
             {services.map(([title, desc]) => <Reveal key={title}><article className="grid gap-5 border-b border-ink py-7 transition hover:bg-white/45 md:grid-cols-[.55fr_1fr_.08fr]"><h3 className="text-2xl font-black uppercase tracking-[-0.045em]">{title}</h3><p className="max-w-3xl text-lg leading-7 text-slate-700">{desc}</p><ArrowUpRight className="hidden justify-self-end md:block" /></article></Reveal>)}
@@ -106,7 +120,7 @@ export default function App() {
 
       <section id="methode" className="bg-cobalt px-4 py-24 text-cream sm:px-8 lg:px-12">
         <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
-          <div><SectionKicker>Méthode</SectionKicker><h2 className="text-[clamp(3rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Simple à utiliser. Solide à maintenir.</h2></div>
+          <div className="min-w-0"><SectionKicker>Méthode</SectionKicker><h2 className="text-[clamp(3rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Simple à utiliser. Solide à maintenir.</h2></div>
           <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[2rem] bg-cream/25">
             {method.map(([num, title]) => <div className="bg-cobalt p-6" key={num}><span className="text-5xl font-black tracking-[-0.06em] text-accent">{num}</span><h3 className="mt-16 text-2xl font-black uppercase tracking-[-0.04em]">{title}</h3></div>)}
           </div>
@@ -133,12 +147,12 @@ export default function App() {
 
       <section id="contact" className="px-4 py-24 sm:px-8 lg:px-12">
         <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div>
+          <div className="min-w-0">
             <SectionKicker>Contact</SectionKicker>
             <h2 className="text-[clamp(3rem,7vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Décrivez le blocage.</h2>
             <div className="mt-10 border-l-4 border-ink pl-5 text-sm leading-6 text-slate-700"><p><strong>Informations vérifiées :</strong> Rocket Science SRL · BE 0835.698.352 · Groendreef 6, 9810 Nazareth-De Pinte, Belgique.</p><p className="mt-3">Pour les demandes commerciales, utilisez le formulaire.</p></div>
           </div>
-          <form onSubmit={submit} className="border-t border-ink pt-2">
+          <form onSubmit={submit} className="min-w-0 border-t border-ink pt-2">
             <div className="grid gap-px bg-ink"><Field label="Nom" name="name" /><Field label="Email" name="email" type="email" /><Field label="Entreprise" name="company" /><label className="grid gap-3 bg-cream p-5 text-xs font-black uppercase tracking-[0.18em]">Besoin principal<select required name="need" className="focus-ring bg-transparent text-lg font-semibold normal-case tracking-normal outline-none"><option>Audit Salesforce</option><option>Automatisation workflow</option><option>Reporting / dashboards</option><option>Optimisation CRM</option><option>Autre besoin</option></select></label><label className="grid gap-3 bg-cream p-5 text-xs font-black uppercase tracking-[0.18em]">Message<textarea required name="message" rows={5} className="focus-ring resize-none bg-transparent text-lg font-semibold normal-case tracking-normal outline-none" placeholder="Contexte, problème, objectif." /></label></div>
             <button className="focus-ring mt-6 inline-flex items-center gap-3 rounded-full bg-ink px-6 py-4 text-sm font-black uppercase tracking-wide text-cream transition hover:bg-cobalt" type="submit">Envoyer <ArrowUpRight size={17} /></button>
             {sent && <p role="status" className="mt-5 border border-ink p-4 text-sm font-semibold">Simulation envoyée. Connecter le formulaire avant publication.</p>}

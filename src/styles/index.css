@@ -4,7 +4,8 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #f3efe4; color: #111111; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; background: #f3efe4; color: #111111; font-family: Inter, ui-sans-serif, system-ui, sans-serif; overflow-x: hidden; }
+#root, main { overflow-x: hidden; }
 ::selection { background: #b8ff3c; color: #111111; }
 .focus-ring:focus-visible { outline: 3px solid #1747ff; outline-offset: 4px; }
 
@@ -33,9 +34,13 @@ body { margin: 0; background: #f3efe4; color: #111111; font-family: Inter, ui-sa
 .visual-card { transform: translateZ(0); }
 .visual-card img { display: block; }
 .marquee { animation: marquee 20s linear infinite; }
+.label-strip { overflow: hidden; max-width: 100%; min-width: 0; contain: paint; }
+.label-track { animation: label-marquee 18s linear infinite; }
+.photo-card { min-height: 280px; transform: translateZ(0); }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-45%); } }
+@keyframes label-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-  .marquee { animation: none; }
+  .marquee, .label-track { animation: none; }
 }
