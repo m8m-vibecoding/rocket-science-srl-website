@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "autoprefixer": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "postcss": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "^3.4.17",
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "globals": "latest",
+    "playwright": "^1.61.1",
+    "typescript-eslint": "latest"
+  },
+  "type": "module"
+}
