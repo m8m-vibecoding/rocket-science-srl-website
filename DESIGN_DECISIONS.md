@@ -76,3 +76,10 @@ Le site utilise des visuels abstraits SVG créés pour le projet et trois photos
 ## Actualisation direction artistique mobile / Copula-inspired
 
 La version actuelle reprend des principes visibles dans les références fournies sans copier les assets : grands aplats de couleur, typographie très large, labels en enfilade, barre verticale latérale, photo découpée en forme organique, CTA en blob, copywriting minimal et sections plus visuelles que textuelles.
+
+
+## Anti-référence validée par le client
+
+À éviter explicitement : rendu type application sombre avec header compact, liste verticale de problèmes en lignes séparées, icônes check vertes et esthétique “task/checklist”.
+
+Conséquence design : les douleurs client restent traitées comme typographie éditoriale grand format ou comme séquences visuelles, sans bullet points, sans checkmarks, sans UI de dashboard sombre générique.
