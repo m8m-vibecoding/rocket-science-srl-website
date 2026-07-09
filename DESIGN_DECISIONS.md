@@ -1,83 +1,62 @@
 # Design decisions — Rocket Science SRL
 
-## Skill UI/UX
+## Référence analysée
 
-La ressource demandée a été installée localement par clonage :
+Site analysé : `https://copula.agency/`
 
-- Repo : `https://github.com/nextlevelbuilder/ui-ux-pro-max-skill`
-- Emplacement local de travail : `/opt/data/work-skills/ui-ux-pro-max-skill`
-- Fichiers inspectés : `README.md`, `CLAUDE.md`, `cli/assets/skills/design-system/SKILL.md`
-- Requêtes exécutées via `src/ui-ux-pro-max/scripts/search.py` : landing, style, color, typography, UX, stack React.
+Analyse effectuée : HTML public, extraction DOM via Playwright, screenshots desktop/mobile et inspection visuelle.
 
-La skill est compatible avec l’environnement : Python 3, aucune dépendance externe requise pour le moteur de recherche.
+## Ce qui ressort de Copula
 
-## Recommandations retenues
+- Direction artistique très agence : peu d’effets, beaucoup d’espace, typographie géante.
+- Palette courte : fond crème, noir, couleur vive principale, accent CTA.
+- Sections éditoriales très nettes : label court + grand statement + contenu réduit.
+- Services traités en lignes typographiques plutôt qu’en cartes SaaS génériques.
+- Copywriting direct, manifeste, orienté positionnement.
+- Rythme vertical fort : blocs contrastés, changements nets de fond, pas de surcharge visuelle.
 
-### Structure UX
+## Adaptation pour Rocket Science SRL
 
-Base utilisée : landing B2B service, claire et orientée conversion.
-Ordre retenu : hero → douleurs → services → méthode → pourquoi → cas d’usage → Salesforce → CTA → contact.
+Le nouveau design ne copie pas Copula, mais reprend les principes adaptés à une TPE belge Salesforce :
 
-### Hiérarchie visuelle
+- Ton plus sobre et opérationnel.
+- Palette : crème / noir / bleu cobalt / vert acide.
+- Typographie Inter, très lourde sur les titres, lisible sur le corps.
+- Hero agency : “Salesforce, sans friction.”
+- Suppression du rendu “AI SaaS template” : moins de gradients décoratifs, moins de cartes, moins d’icônes.
+- Services en lignes premium, méthode en blocs éditoriaux, CTA très net.
 
-- Hero très explicite en 5 secondes.
-- Un CTA principal répété : “Planifier un échange”.
-- Sections séparées par fonds clairs/sombres pour faciliter la lecture.
-- Pas de témoignages, logos clients ou métriques non vérifiés.
+## Règles éditoriales
 
-### Palette
+- Aucun faux témoignage.
+- Aucun logo client.
+- Aucune certification Salesforce non vérifiée.
+- Aucun chiffre inventé.
+- Les infos Salesforce restent basées sur le brief client, pas présentées comme preuve publique.
 
-Inspirée du résultat `B2B Service` de UI UX Pro Max :
+## Données vérifiées
 
-- Navy : `#0F172A`
-- Ink : `#020617`
-- Blue : `#0369A1`
-- Green : `#059669`
-- Background : `#F8FAFC`
-- Cards : `#FFFFFF`
-- Borders : `#E2E8F0`
-
-Objectif : blanc dominant, bleu confiance/CRM, vert efficacité/automatisation, noir/navy crédibilité.
-
-### Typographie
-
-- Inter via Google Fonts.
-- Titres forts en 700/800.
-- Corps 16–18 px, line-height généreux.
-- Choix préféré à des polices plus décoratives pour garder une crédibilité B2B belge.
-
-### Spacing et composants
-
-- Container max `1120px`.
-- Sections `py-20` minimum.
-- Cartes arrondies `2xl/3xl`, bordures fines, ombres douces.
-- Touch targets et CTA suffisamment grands.
-
-### Accessibilité
-
-Recommandations UI UX Pro Max appliquées :
-
-- Contraste élevé navy/blanc et texte slate lisible.
-- Labels réels sur les champs de formulaire.
-- Focus visible avec `.focus-ring`.
-- Respect de `prefers-reduced-motion`.
-- Icônes décoratives sans dépendance à la couleur seule dans les listes importantes.
-
-### Responsive
-
-- Header simplifié mobile.
-- Grilles qui passent de 1 colonne à 2/4 colonnes.
-- Hero en 1 colonne mobile puis 2 colonnes desktop.
-- Sections pensées pour 375px, 768px, 1024px et 1440px.
-
-## Choix de style
-
-Direction : premium B2B SaaS/consulting sobre.
-Éléments “Rocket Science” traités discrètement : orbites, gradients subtils, CRM operations map — pas de fusée cartoon.
-
-## Sources entreprise utilisées
+Sources :
 
 - BCE Public Search : `https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer=0835698352&lang=fr`
 - Companyweb : `https://www.companyweb.be/fr/0835698352/rocket-science`
 
-Les informations Salesforce proviennent du brief client, pas d’une preuve publique. Le site ne mentionne donc aucune certification Salesforce ni partenariat officiel.
+Confirmé :
+
+- Dénomination : ROCKET SCIENCE
+- Numéro d’entreprise / TVA : BE 0835.698.352
+- Statut : actif
+- Date de début : 13 avril 2011
+- Siège : Groendreef 6, 9810 Nazareth-De Pinte, Belgique
+- Forme légale : Société à responsabilité limitée
+- Administrateur public BCE : Matthias Stevens
+- Activités TVA : conseil informatique / gestion d’installations informatiques + soutien aux entreprises
+
+Non trouvé publiquement :
+
+- Email
+- Téléphone
+- Site officiel
+- LinkedIn confirmé
+- Certification Salesforce
+- Références clients

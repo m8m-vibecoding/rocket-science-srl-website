@@ -1,2 +1,16 @@
 /** @type {import('tailwindcss').Config} */
-export default {content:['./index.html','./src/**/*.{ts,tsx}'],theme:{extend:{fontFamily:{sans:['Inter','ui-sans-serif','system-ui','sans-serif']},colors:{navy:'#0f172a',ink:'#020617',blue:'#0369a1',sky:'#0ea5e9',green:'#059669',mint:'#10b981'},boxShadow:{soft:'0 24px 80px rgba(15, 23, 42, 0.10)',card:'0 16px 48px rgba(15, 23, 42, 0.08)'},backgroundImage:{'orbital':'radial-gradient(circle at 20% 20%, rgba(14,165,233,.18), transparent 32%), radial-gradient(circle at 80% 0%, rgba(16,185,129,.16), transparent 30%)'}}},plugins:[]}
+export default {
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+      colors: {
+        cream: '#f3efe4',
+        ink: '#111111',
+        cobalt: '#1747ff',
+        accent: '#b8ff3c',
+      },
+    },
+  },
+  plugins: [],
+};
