@@ -81,3 +81,8 @@ Le site utilise des visuels abstraits SVG créés pour le projet et trois photos
 - `photo-1551434678-e076c223a692` — travail d’équipe / organisation
 
 À remplacer par des photos client si Rocket Science SRL fournit des visuels propriétaires.
+
+
+## Actualisation direction artistique mobile / Copula-inspired
+
+La version actuelle reprend des principes visibles dans les références fournies sans copier les assets : grands aplats de couleur, typographie très large, labels en enfilade, barre verticale latérale, photo découpée en forme organique, CTA en blob, copywriting minimal et sections plus visuelles que textuelles.
