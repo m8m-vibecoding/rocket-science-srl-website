@@ -1,148 +1,112 @@
-import { FormEvent, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, ChevronRight } from 'lucide-react';
-import flowImage from './assets/salesforce-flow.svg';
-import boardImage from './assets/ops-board.svg';
-import methodImage from './assets/method-map.svg';
+import { FormEvent, ReactNode, useEffect, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowDown, ArrowUpRight, BarChart3, Check, Database, Gauge, Layers3, Menu, Orbit, ShieldCheck, Sparkles, Workflow, X } from 'lucide-react';
 
-const nav = [
-  { label: 'Services', href: '#services' },
+const navigation = [
+  { label: 'Expertises', href: '#expertises' },
   { label: 'Méthode', href: '#methode' },
-  { label: 'Salesforce', href: '#salesforce' },
+  { label: 'Offres', href: '#offres' },
   { label: 'Contact', href: '#contact' },
 ];
 
-const photos = {
-  team: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
-  analytics: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80',
-  workshop: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80',
-};
+const expertise = [
+  ['01', 'Sales Cloud', 'Pipeline, opportunités, prévisions et processus commerciaux réunis dans un système lisible.', BarChart3],
+  ['02', 'Service Cloud', 'Demandes, connaissances et support structurés pour une expérience client plus fluide.', Layers3],
+  ['03', 'Marketing Cloud', 'Segmentation, parcours et activations marketing reliés à vos données clients.', Sparkles],
+  ['04', 'Data 360 & intégrations', 'Sources connectées, données fiabilisées et contexte exploitable dans vos opérations.', Database],
+  ['05', 'Automatisation', 'Workflows, validations et synchronisations conçus autour du travail réel des équipes.', Workflow],
+  ['06', 'Sécurité & gouvernance', 'Accès, consentement, qualité et traçabilité intégrés dès la conception.', ShieldCheck],
+] as const;
 
-const problems = ['Sous-utilisation', 'Données dispersées', 'Trop de manuel', 'Pipeline flou', 'Reporting lent', 'Adoption faible'];
-const services = ['Implémentation Salesforce', 'Optimisation CRM', 'Workflows automatisés', 'Données & reporting', 'Intégrations utiles', 'Support continu'];
-const method = [['01', 'Observer'], ['02', 'Structurer'], ['03', 'Automatiser'], ['04', 'Adopter']];
-const useCases = ['Lead qualification', 'Pipeline', 'Sales ops', 'Reporting', 'Data cleanup', 'Automation', 'Ops sync'];
+const steps = [
+  ['01', 'Cadrer', 'Objectifs, utilisateurs, données et contraintes sont traduits en un périmètre net.'],
+  ['02', 'Architecturer', 'Le modèle, les flux et les intégrations sont dessinés avant la configuration.'],
+  ['03', 'Déployer', 'La solution est livrée par étapes, testée sur des scénarios métier concrets.'],
+  ['04', 'Transmettre', 'Documentation, formation et suivi permettent aux équipes de prendre la main.'],
+];
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return <motion.div initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.5, delay }}>{children}</motion.div>;
+const offers = [
+  { eyebrow: 'TPE & équipes compactes', title: 'Essentiel', intro: 'Un socle Salesforce propre pour remplacer les fichiers dispersés et structurer la croissance.', items: ['Cadrage et audit de départ', 'Configuration du CRM et du pipeline', 'Import, nettoyage et règles de données', 'Automatisations prioritaires', 'Tableaux de bord essentiels', 'Formation et prise en main', 'Contrôles d’accès et bonnes pratiques RGPD'] },
+  { eyebrow: 'PME & infrastructures étendues', title: 'Sur mesure', intro: 'Une architecture Salesforce dimensionnée pour plusieurs équipes, systèmes et parcours clients.', items: ['Architecture multi-cloud', 'Sales, Service, Marketing et Data 360', 'Intégrations avec vos outils métier', 'Gouvernance, rôles et sécurité avancée', 'Migration et fiabilisation des données', 'Recette, conduite du changement et formation', 'Feuille de route et amélioration continue'], featured: true },
+];
+
+const easing = [0.22, 1, 0.36, 1] as const;
+
+function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  const reduceMotion = useReducedMotion();
+  return <motion.div className={className} initial={reduceMotion ? false : { opacity: 0, y: 32 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: true, margin: '-80px' }} transition={{ duration: 0.75, delay, ease: easing }}>{children}</motion.div>;
 }
 
-function Float({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return <motion.div animate={{ y: [0, -12, 0], rotate: [0, 0.6, 0] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay }}>{children}</motion.div>;
+function Button({ href, children, variant = 'primary', onClick }: { href: string; children: ReactNode; variant?: 'primary' | 'light' | 'ghost'; onClick?: () => void }) {
+  return <a className={'button button--' + variant} href={href} onClick={onClick}><span>{children}</span><ArrowUpRight aria-hidden="true" size={17} /></a>;
 }
 
-function SectionLabel({ children, tone = 'dark' }: { children: string; tone?: 'dark' | 'light' }) {
-  const items = Array.from({ length: 12 }, (_, index) => <span key={index}>{children}</span>);
-  return <div className={`label-strip border-y py-3 text-xs font-black uppercase tracking-[0.3em] ${tone === 'light' ? 'border-cream/20 text-cream/80' : 'border-ink/20 text-ink/70'}`}><div className="label-track flex w-max gap-8">{items}</div></div>;
+function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+  return <p className={'eyebrow ' + (light ? 'eyebrow--light' : '')}><span aria-hidden="true" />{children}</p>;
 }
 
-function Cta({ href = '#contact', children = 'Planifier un échange', dark = false }: { href?: string; children?: React.ReactNode; dark?: boolean }) {
-  return <a href={href} className={`focus-ring group inline-flex items-center gap-3 rounded-full border px-5 py-3 text-sm font-black uppercase tracking-wide transition ${dark ? 'border-ink bg-ink text-cream hover:bg-cobalt' : 'border-cream bg-cream text-ink hover:bg-accent'}`}>{children}<ArrowUpRight className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" size={17} /></a>;
+function BrandMark() {
+  return <span className="brand-mark" aria-hidden="true"><span className="brand-mark__orbit" /><span className="brand-mark__core" /></span>;
 }
 
-function Visual({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
-  return <div className={`visual-card group overflow-hidden rounded-[2rem] border border-ink/10 shadow-[0_30px_90px_rgba(17,17,17,.18)] ${className}`}><img src={src} alt={alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]" /></div>;
+function Header() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => { document.body.classList.toggle('menu-open', open); return () => document.body.classList.remove('menu-open'); }, [open]);
+  return <header className="site-header">
+    <div className="header-inner">
+      <a className="brand" href="#accueil" aria-label="Rocket Science SRL — accueil"><BrandMark /><span>Rocket Science</span></a>
+      <nav className="desktop-nav" aria-label="Navigation principale">{navigation.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}</nav>
+      <Button href="#contact">Parler de votre projet</Button>
+      <button className="menu-toggle" type="button" aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}</button>
+    </div>
+    <AnimatePresence>{open && <motion.nav className="mobile-nav" aria-label="Navigation mobile" initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>{navigation.map((item, index) => <a href={item.href} key={item.href} onClick={() => setOpen(false)}><span>0{index + 1}</span>{item.label}</a>)}<p>Conseil & intégration Salesforce · Belgique</p></motion.nav>}</AnimatePresence>
+  </header>;
 }
 
-function Photo({ src, alt, blob = false, className = '' }: { src: string; alt: string; blob?: boolean; className?: string }) {
-  return <figure className={`photo-card group overflow-hidden bg-ink shadow-[0_28px_90px_rgba(17,17,17,.24)] ${blob ? 'blob-mask' : 'rounded-[2rem]'} ${className}`}><img src={src} alt={alt} loading="lazy" className="h-full min-h-[280px] w-full object-cover grayscale contrast-125 transition duration-700 group-hover:scale-[1.04] group-hover:grayscale-0" /></figure>;
+function MissionVisual() {
+  const reduceMotion = useReducedMotion();
+  return <div className="mission-visual" aria-label="Illustration d’un écosystème Salesforce connecté">
+    <div className="mission-grid" />
+    <motion.div className="orbit orbit--outer" animate={reduceMotion ? undefined : { rotate: 360 }} transition={{ duration: 30, ease: 'linear', repeat: Infinity }}><span className="satellite satellite--one">Data</span><span className="satellite satellite--two">Service</span></motion.div>
+    <motion.div className="orbit orbit--inner" animate={reduceMotion ? undefined : { rotate: -360 }} transition={{ duration: 22, ease: 'linear', repeat: Infinity }}><span className="satellite satellite--three">Sales</span></motion.div>
+    <div className="mission-core"><BrandMark /><strong>Votre<br />système</strong></div><div className="status-chip"><span />Architecture alignée</div>
+  </div>;
 }
 
 export default function App() {
-  const [sent, setSent] = useState(false);
-  const submit = (event: FormEvent) => { event.preventDefault(); setSent(true); };
+  const [selectedOffer, setSelectedOffer] = useState('Projet Salesforce');
+  const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const chooseOffer = (offer: string) => { setSelectedOffer(offer); window.setTimeout(() => document.querySelector<HTMLInputElement>('#nom')?.focus(), 550); };
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); setFormState('sending'); const form = event.currentTarget; const payload = Object.fromEntries(new FormData(form).entries());
+    try { const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) throw new Error('Contact endpoint unavailable'); form.reset(); setSelectedOffer('Projet Salesforce'); setFormState('success'); } catch { setFormState('error'); }
+  };
 
-  return (
-    <main className="bg-cream text-ink">
-      <aside className="side-rail hidden md:flex"><span>BE</span><span>Salesforce</span></aside>
+  return <main>
+    <a className="skip-link" href="#contenu">Aller au contenu</a><Header />
+    <section className="hero" id="accueil"><div className="hero-glow" /><div className="page-shell hero-layout" id="contenu">
+      <Reveal className="hero-copy"><Eyebrow>Conseil & intégration Salesforce · Belgique</Eyebrow><h1>Votre Salesforce.<span>Enfin à votre mesure.</span></h1><p className="hero-lead">Rocket Science transforme vos enjeux commerciaux, service, marketing et data en un système Salesforce clair, sûr et réellement adopté.</p><div className="hero-actions"><Button href="#contact">Cadrer votre projet</Button><a className="text-link" href="#expertises">Explorer les expertises <ArrowDown aria-hidden="true" size={16} /></a></div></Reveal>
+      <Reveal className="hero-art" delay={0.12}><MissionVisual /></Reveal>
+    </div><div className="page-shell signal-row" aria-label="Principes d’intervention"><span>Architecture utile</span><span>Données maîtrisées</span><span>Adoption terrain</span><span>Sécurité intégrée</span></div></section>
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-cream/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-4 sm:px-8 lg:px-12">
-          <a className="focus-ring flex items-center gap-3 rounded-full text-sm font-black uppercase tracking-tight" href="#top" aria-label="Rocket Science SRL accueil"><span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-cream">R</span>Rocket Science SRL</a>
-          <nav className="hidden items-center gap-8 text-xs font-black uppercase tracking-[0.18em] md:flex">{nav.map((item) => <a className="focus-ring rounded hover:text-cobalt" href={item.href} key={item.href}>{item.label}</a>)}</nav>
-          <a href="#contact" className="focus-ring grid h-10 w-10 place-items-center rounded-full bg-accent text-2xl font-black text-ink transition hover:bg-cobalt hover:text-cream">+</a>
-        </div>
-      </header>
+    <section className="statement section-dark"><div className="page-shell statement-layout"><Reveal><Eyebrow light>Le point de départ</Eyebrow><h2>Salesforce n’est puissant que lorsqu’il épouse vraiment votre métier.</h2></Reveal><Reveal className="statement-aside" delay={0.1}><p>Nous relions les processus, les équipes et les données. Chaque choix de configuration répond à un usage concret — pas à une démonstration technique.</p><div className="statement-index"><span>01</span><span>Du besoin au système</span></div></Reveal></div></section>
 
-      <section id="top" className="hero-noise min-h-screen px-4 pt-28 sm:px-8 lg:px-12">
-        <div className="mx-auto grid w-full max-w-[1500px] gap-10 lg:grid-cols-[1fr_.92fr] lg:items-end">
-          <Reveal>
-            <p className="mb-6 text-xs font-black uppercase tracking-[0.24em] text-cobalt">Salesforce consulting · Belgique · PME & opérations</p>
-            <h1 className="max-w-6xl text-[clamp(3.2rem,13vw,12.5rem)] font-black uppercase leading-[0.82] tracking-[-0.085em]">Salesforce,<br />sans friction.</h1>
-            <div className="mt-8 flex flex-wrap gap-3"><Cta dark /> <a className="focus-ring inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-3 text-sm font-black uppercase tracking-wide hover:border-cobalt hover:text-cobalt" href="#services">Voir les services <ChevronRight size={16} /></a></div>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <div className="grid gap-5 sm:grid-cols-[.9fr_1.1fr] sm:items-end">
-              <Float><Visual src={flowImage} alt="Schéma abstrait du flux Salesforce" /></Float>
-              <div><Photo src={photos.analytics} alt="Dashboard analytics sur ordinateur" blob className="min-h-[430px]" /><p className="mt-5 text-2xl font-black uppercase leading-none tracking-[-0.06em]">Structurer. Automatiser. Exploiter.</p></div>
-            </div>
-          </Reveal>
-        </div>
-        <div className="mx-auto mt-16 max-w-[1500px] overflow-hidden border-y border-ink py-5 text-xs font-black uppercase tracking-[0.18em]"><div className="marquee flex w-max gap-10"><span>CRM plus lisible</span><span>Automatisations utiles</span><span>Adoption terrain</span><span>Dashboards actionnables</span><span>Sales ops propres</span><span>CRM plus lisible</span><span>Automatisations utiles</span></div></div>
-      </section>
+    <section className="expertise section-light" id="expertises"><div className="page-shell"><div className="section-heading"><Reveal><Eyebrow>Expertises connectées</Eyebrow><h2>Un seul écosystème.<br />Six leviers.</h2></Reveal><Reveal delay={0.08}><p>Une intervention cohérente sur les briques Salesforce qui structurent la relation client et les opérations.</p></Reveal></div><div className="expertise-list">{expertise.map(([index, name, detail, Icon], itemIndex) => <Reveal className="expertise-row" delay={itemIndex * 0.035} key={name}><span className="expertise-number">{index}</span><span className="expertise-icon"><Icon aria-hidden="true" /></span><h3>{name}</h3><p>{detail}</p></Reveal>)}</div></div></section>
 
-      <section className="panel panel-orange px-4 py-24 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <SectionLabel>Constat</SectionLabel>
-          <div className="grid gap-12 lg:grid-cols-[1fr_.55fr] lg:items-end">
-            <Reveal><h2 className="max-w-5xl text-[clamp(3.2rem,9vw,10rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-orange-soft">Le CRM bloque quand le process reste flou.</h2></Reveal>
-            <Reveal delay={0.08}><Photo src={photos.workshop} alt="Atelier opérationnel en équipe" blob className="min-h-[380px]" /></Reveal>
-          </div>
-          <div className="mt-16 space-y-2 border-t border-ink/20 pt-8">{problems.map((item) => <p className="problem-line" key={item}>{item}</p>)}</div>
-        </div>
-      </section>
+    <section className="visual-break"><div className="visual-break__image" role="img" aria-label="Circuit électronique vu en gros plan" /><div className="visual-break__overlay"><div className="page-shell"><Reveal><Eyebrow light>Conçu pour durer</Eyebrow><p className="visual-quote">Moins de friction.<br />Plus de signal.</p></Reveal></div></div></section>
 
-      <section id="services" className="bg-ink px-4 py-24 text-cream sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <SectionLabel tone="light">Services</SectionLabel>
-          <div className="grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
-            <h2 className="text-[clamp(3.1rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Du process au système.</h2>
-            <div className="grid gap-5 md:grid-cols-2"><Photo src={photos.team} alt="Cadrage projet et collaboration" /><Visual src={methodImage} alt="Carte de méthode en quatre étapes" className="border-cream/15" /></div>
-          </div>
-          <div className="mt-14 flex flex-wrap gap-3">{services.map((item) => <span className="service-pill" key={item}>{item}</span>)}</div>
-        </div>
-      </section>
+    <section className="method section-cobalt" id="methode"><div className="page-shell"><div className="section-heading section-heading--light"><Reveal><Eyebrow light>La trajectoire</Eyebrow><h2>Du cadrage à l’autonomie.</h2></Reveal><Reveal delay={0.08}><p>Des décisions visibles, des validations régulières et une transmission pensée dès le premier jour.</p></Reveal></div><div className="steps">{steps.map(([number, title, description], index) => <Reveal className="step" delay={index * 0.05} key={number}><div className="step-top"><span>{number}</span><Orbit aria-hidden="true" /></div><h3>{title}</h3><p>{description}</p></Reveal>)}</div></div></section>
 
-      <section id="methode" className="bg-cobalt px-4 py-24 text-cream sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <SectionLabel tone="light">Méthode</SectionLabel>
-          <div className="grid gap-12 lg:grid-cols-[1fr_.9fr] lg:items-center">
-            <h2 className="text-[clamp(3.1rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Simple à utiliser. Solide à maintenir.</h2>
-            <div className="grid gap-px overflow-hidden rounded-[2rem] bg-cream/25 sm:grid-cols-2">{method.map(([num, title]) => <div className="bg-cobalt p-6" key={num}><span className="text-5xl font-black tracking-[-0.06em] text-accent">{num}</span><h3 className="mt-20 text-2xl font-black uppercase tracking-[-0.04em]">{title}</h3></div>)}</div>
-          </div>
-        </div>
-      </section>
+    <section className="proof section-light"><div className="page-shell proof-layout"><Reveal className="proof-photo"><img src="/media/workspace.jpg" alt="Poste de travail dédié à la conception d’une solution numérique" loading="lazy" /><span>Exécution attentive · documentation claire</span></Reveal><Reveal className="proof-copy" delay={0.1}><Eyebrow>Une delivery responsable</Eyebrow><h2>La complexité reste derrière. La maîtrise passe devant.</h2><div className="principles"><div><ShieldCheck aria-hidden="true" /><p><strong>Sécurité dès la conception</strong>Accès, données sensibles et traçabilité font partie de l’architecture.</p></div><div><Gauge aria-hidden="true" /><p><strong>Performance opérationnelle</strong>Les automatisations servent le rythme des équipes, sans ajouter de dette invisible.</p></div><div><Workflow aria-hidden="true" /><p><strong>Continuité</strong>Votre système est documenté, testable et transmissible.</p></div></div></Reveal></div></section>
 
-      <section id="salesforce" className="px-4 py-24 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-[1500px]">
-          <SectionLabel>Salesforce</SectionLabel>
-          <div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-            <h2 className="text-[clamp(3.1rem,8vw,9rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Le bon outil, bien configuré.</h2>
-            <Visual src={boardImage} alt="Tableau de bord opérationnel abstrait" />
-          </div>
-          <div className="mt-14 flex flex-wrap gap-3">{useCases.map((item) => <span className="rounded-full border border-ink px-5 py-3 text-sm font-black uppercase tracking-wide transition hover:bg-ink hover:text-cream" key={item}>{item}</span>)}</div>
-        </div>
-      </section>
+    <section className="offers section-ink" id="offres"><div className="page-shell"><div className="section-heading section-heading--light"><Reveal><Eyebrow light>Deux points de départ</Eyebrow><h2>Un périmètre adapté.<br />Un devis clair.</h2></Reveal><Reveal delay={0.08}><p>Chaque organisation est différente. Ces offres structurent la discussion ; le budget final suit toujours votre architecture et vos priorités.</p></Reveal></div><div className="offer-grid">{offers.map((offer, index) => <Reveal className={'offer-card ' + (offer.featured ? 'offer-card--featured' : '')} delay={index * 0.08} key={offer.title}><p className="offer-eyebrow">{offer.eyebrow}</p><div className="offer-title"><h3>{offer.title}</h3><span>Sur devis</span></div><p className="offer-intro">{offer.intro}</p><ul>{offer.items.map((item) => <li key={item}><Check aria-hidden="true" size={16} />{item}</li>)}</ul><Button href="#contact" variant={offer.featured ? 'light' : 'ghost'} onClick={() => chooseOffer(offer.title)}>Demander un devis</Button></Reveal>)}</div><p className="offer-note">Licences Salesforce et services tiers non inclus · périmètre confirmé après cadrage</p></div></section>
 
-      <section className="bg-accent px-4 py-24 text-ink sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1fr_.55fr] lg:items-center">
-          <h2 className="text-[clamp(3.5rem,10vw,11rem)] font-black uppercase leading-[0.82] tracking-[-0.085em]">Prêt à rendre Salesforce clair ?</h2>
-          <div className="blob-cta"><a href="#contact">Planifier</a></div>
-        </div>
-      </section>
+    <section className="contact section-acid" id="contact"><div className="page-shell contact-layout"><Reveal className="contact-copy"><Eyebrow>Prochaine étape</Eyebrow><h2>Parlons du point qui bloque.</h2><p>Donnez-nous le contexte. Nous vous répondrons avec les premières questions utiles pour cadrer la mission.</p><div className="company-card"><BrandMark /><div><strong>Rocket Science SRL</strong><span>BE 0835.698.352</span><span>Groendreef 6, 9810 Nazareth-De Pinte</span><span>Belgique</span></div></div></Reveal><Reveal className="form-wrap" delay={0.1}><form onSubmit={submit}><div className="form-grid"><Field id="nom" name="name" label="Nom" autoComplete="name" /><Field id="email" name="email" label="Email professionnel" type="email" autoComplete="email" /><Field id="entreprise" name="company" label="Entreprise" autoComplete="organization" /><label className="field"><span>Projet</span><select name="project" value={selectedOffer} onChange={(event) => setSelectedOffer(event.target.value)}><option>Projet Salesforce</option><option>Essentiel</option><option>Sur mesure</option><option>Audit ou optimisation</option><option>Data, sécurité ou intégration</option></select></label></div><label className="field field--message"><span>Votre contexte</span><textarea name="message" rows={5} required aria-label="Objectif, difficulté actuelle et équipe concernée" /></label><label className="consent"><input type="checkbox" name="consent" required /><span>J’accepte que mes données soient utilisées uniquement pour répondre à cette demande.</span></label><button className="button button--primary submit-button" type="submit" disabled={formState === 'sending'}><span>{formState === 'sending' ? 'Envoi…' : 'Envoyer la demande'}</span><ArrowUpRight aria-hidden="true" size={17} /></button><div className="form-status" aria-live="polite">{formState === 'success' && <p>Merci. Votre demande a bien été transmise.</p>}{formState === 'error' && <p>L’envoi n’est pas encore disponible. Vous pouvez réessayer plus tard ; aucune donnée n’a été conservée.</p>}</div></form></Reveal></div></section>
 
-      <section id="contact" className="px-4 py-24 sm:px-8 lg:px-12">
-        <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div className="min-w-0"><SectionLabel>Contact</SectionLabel><h2 className="text-[clamp(3rem,7vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Décrivez le blocage.</h2><div className="mt-10 border-l-4 border-ink pl-5 text-sm leading-6 text-slate-700"><p><strong>Informations vérifiées :</strong> Rocket Science SRL · BE 0835.698.352 · Groendreef 6, 9810 Nazareth-De Pinte, Belgique.</p><p className="mt-3">Pour les demandes commerciales, utilisez le formulaire.</p></div></div>
-          <form onSubmit={submit} className="min-w-0 border-t border-ink pt-2"><div className="grid gap-px bg-ink"><Field label="Nom" name="name" /><Field label="Email" name="email" type="email" /><Field label="Entreprise" name="company" /><label className="grid gap-3 bg-cream p-5 text-xs font-black uppercase tracking-[0.18em]">Besoin principal<select required name="need" className="focus-ring bg-transparent text-lg font-semibold normal-case tracking-normal outline-none"><option>Audit Salesforce</option><option>Automatisation workflow</option><option>Reporting / dashboards</option><option>Optimisation CRM</option><option>Autre besoin</option></select></label><label className="grid gap-3 bg-cream p-5 text-xs font-black uppercase tracking-[0.18em]">Message<textarea required name="message" rows={5} className="focus-ring resize-none bg-transparent text-lg font-semibold normal-case tracking-normal outline-none" placeholder="Contexte, problème, objectif." /></label></div><button className="focus-ring mt-6 inline-flex items-center gap-3 rounded-full bg-ink px-6 py-4 text-sm font-black uppercase tracking-wide text-cream transition hover:bg-cobalt" type="submit">Envoyer <ArrowUpRight size={17} /></button>{sent && <p role="status" className="mt-5 border border-ink p-4 text-sm font-semibold">Simulation envoyée. Connecter le formulaire avant publication.</p>}</form>
-        </div>
-      </section>
-
-      <footer className="bg-ink px-4 py-14 text-cream sm:px-8 lg:px-12"><div className="mx-auto grid max-w-[1500px] gap-10 md:grid-cols-[1fr_.7fr]"><div><p className="text-5xl font-black uppercase tracking-[-0.07em] sm:text-7xl">Rocket Science SRL</p><p className="mt-4 max-w-2xl text-sm text-slate-300">Groendreef 6, 9810 Nazareth-De Pinte, Belgique · TVA BE 0835.698.352</p></div><div className="flex flex-col gap-3 text-sm font-black uppercase tracking-wide md:items-end"><a href="#top">Accueil</a><a href="#services">Services</a><a href="#contact">Contact</a><span className="text-slate-400">Mentions légales</span></div></div></footer>
-    </main>
-  );
+    <footer className="footer"><div className="page-shell"><div className="footer-top"><a className="brand brand--footer" href="#accueil"><BrandMark /><span>Rocket Science</span></a><p>Des systèmes Salesforce conçus autour du métier.</p><a className="back-top" href="#accueil" aria-label="Retour en haut"><ArrowUpRight aria-hidden="true" /></a></div><div className="footer-bottom"><p>© {new Date().getFullYear()} Rocket Science SRL · BE 0835.698.352</p><nav aria-label="Liens de pied de page"><a href="#mentions-legales">Mentions légales</a><a href="#confidentialite">Confidentialité</a><a href="https://trust.salesforce.com/" target="_blank" rel="noreferrer">Salesforce Trust</a></nav></div><div className="legal-panels"><article id="mentions-legales"><h2>Mentions légales</h2><p>Éditeur : Rocket Science SRL, Groendreef 6, 9810 Nazareth-De Pinte, Belgique. Numéro d’entreprise et TVA : BE 0835.698.352.</p><p>Salesforce, Sales Cloud, Service Cloud, Marketing Cloud et Data 360 sont des marques de Salesforce, Inc. Le présent site n’implique aucune certification ou affiliation non déclarée.</p></article><article id="confidentialite"><h2>Confidentialité</h2><p>Les informations envoyées via le formulaire servent uniquement à traiter votre demande. Elles ne sont ni vendues ni utilisées à des fins publicitaires. Vous pouvez demander l’accès, la rectification ou la suppression de vos données auprès de l’équipe Rocket Science.</p><p>Visuels : photos Unsplash de Umberto et Christopher Gower, utilisées sous licence Unsplash. Illustrations orbitales originales créées pour Rocket Science SRL.</p></article></div></div></footer>
+  </main>;
 }
 
-function Field({ label, name, type = 'text' }: { label: string; name: string; type?: string }) {
-  return <label className="grid gap-3 bg-cream p-5 text-xs font-black uppercase tracking-[0.18em]">{label}<input required name={name} type={type} className="focus-ring bg-transparent text-lg font-semibold normal-case tracking-normal outline-none" /></label>;
+function Field({ id, name, label, type = 'text', autoComplete }: { id: string; name: string; label: string; type?: string; autoComplete?: string }) {
+  return <label className="field" htmlFor={id}><span>{label}</span><input id={id} name={name} type={type} autoComplete={autoComplete} required /></label>;
 }

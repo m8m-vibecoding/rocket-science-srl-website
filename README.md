@@ -1,88 +1,51 @@
 # Rocket Science SRL Website
 
-Site vitrine premium B2B pour Rocket Science SRL, prêt pour Vercel.
+Vitrine B2B premium en français pour Rocket Science SRL, société belge spécialisée dans la conception, l’intégration et l’optimisation de solutions Salesforce.
+
+## Expérience
+
+- Positionnement Salesforce clair : Sales Cloud, Service Cloud, Marketing Cloud, Data 360, automatisation, intégrations, sécurité et gouvernance.
+- Deux offres orientées devis : **Essentiel** pour TPE/équipes compactes et **Sur mesure** pour PME/infrastructures étendues.
+- Navigation desktop et mobile, ancres fonctionnelles, états de focus et support de \`prefers-reduced-motion\`.
+- Direction artistique « mission control » : système orbital original, photographie technique et palette crème/cobalt/vert acide.
+- Formulaire de contact validé côté client et côté serveur.
+- Mentions légales, confidentialité et attribution des médias.
 
 ## Stack
 
-- Vite
-- React
-- TypeScript
+- Vite, React, TypeScript
+- Framer Motion
 - Tailwind CSS
-- Framer Motion pour animations légères
-- lucide-react pour icônes SVG
+- Lucide React
+- Fonction serverless Vercel dans \`api/contact.ts\`
 
-## Commandes
+## Développement
 
-```bash
+\`\`\`bash
 npm install
 npm run dev
-npm run build
-npm run preview
 npm run lint
-```
-
-## Déploiement Vercel
-
-1. Créer/pousser le repo GitHub.
-2. Dans Vercel : **Add New Project** → importer le repo.
-3. Framework preset : **Vite**.
-4. Build command : `npm run build`.
-5. Output directory : `dist`.
-6. Déployer.
+npm run build
+\`\`\`
 
 ## Formulaire de contact
 
-Le formulaire est une simulation locale afin de ne pas exposer de secret API.
-Options recommandées avant publication :
+Le formulaire envoie les demandes via l’API Resend. Configurer ces variables dans Vercel en partant de \`.env.example\` :
 
-- Formspree : remplacer `onSubmit` dans `src/App.tsx` par un POST vers l’endpoint Formspree.
-- Resend : créer une API serverless Vercel `/api/contact` avec clé côté serveur.
-- EmailJS : possible côté client, mais limiter les permissions.
-- API future : envoyer `name`, `email`, `company`, `need`, `message` vers un backend interne.
+- \`RESEND_API_KEY\`
+- \`CONTACT_RECIPIENT\`
+- \`CONTACT_SENDER\` avec un domaine vérifié
 
-## Données Rocket Science à vérifier avant publication
+Sans ces variables, l’API renvoie volontairement une erreur 503 et l’interface indique qu’aucune donnée n’a été conservée. Aucun faux succès n’est affiché.
 
-Confirmé via BCE Public Search :
+## Validation effectuée
 
-- Dénomination : ROCKET SCIENCE
-- Numéro d’entreprise / TVA : BE 0835.698.352
-- Statut : actif
-- Date de début : 13 avril 2011
-- Siège : Groendreef 6, 9810 Nazareth-De Pinte, Belgique
-- Forme légale : Société à responsabilité limitée
-- Administrateur public BCE : Matthias Stevens
-- Activités TVA : soutien aux entreprises nca et conseil informatique / gestion d’installations informatiques
+- \`npm run build\`
+- \`npm run lint\`
+- \`npm audit\` : 0 vulnérabilité
+- Playwright/Chrome : 1440×1000, 768×1024 et 390×844
+- Aucun débordement horizontal, aucune erreur console, menu mobile et ancre Offres validés
 
-Non trouvé publiquement dans les sources consultées :
+## Médias
 
-- Email
-- Téléphone
-- Site web officiel
-- Page LinkedIn confirmée
-- Certification Salesforce
-- Références clients
-
-## Checklist avant publication
-
-- [ ] Valider email/téléphone/site officiel avec le client.
-- [ ] Ajouter mentions légales et politique de confidentialité.
-- [ ] Connecter le formulaire à un backend.
-- [ ] Remplacer l’URL du sitemap par le domaine final.
-- [ ] Vérifier le rendu mobile/tablette/desktop.
-- [ ] Ne pas ajouter de logos clients, chiffres ou certifications sans preuve.
-
-
-## Images libres de droit
-
-Le site utilise des visuels abstraits SVG créés pour le projet et trois photos distantes issues d’Unsplash, utilisées sous Unsplash License :
-
-- `photo-1552664730-d307ca884978` — atelier / cadrage équipe
-- `photo-1460925895917-afdab827c52f` — analytics / dashboard
-- `photo-1551434678-e076c223a692` — travail d’équipe / organisation
-
-À remplacer par des photos client si Rocket Science SRL fournit des visuels propriétaires.
-
-
-## Actualisation direction artistique mobile / Copula-inspired
-
-La version actuelle reprend des principes visibles dans les références fournies sans copier les assets : grands aplats de couleur, typographie très large, labels en enfilade, barre verticale latérale, photo découpée en forme organique, CTA en blob, copywriting minimal et sections plus visuelles que textuelles.
+Voir [MEDIA_LICENSES.md](./MEDIA_LICENSES.md). Les deux photos sont stockées localement et utilisées sous licence Unsplash. Les illustrations orbitales sont originales.
