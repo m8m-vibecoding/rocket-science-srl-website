@@ -1,85 +1,32 @@
-# Design decisions — Rocket Science SRL
+# Direction artistique — Rocket Science SRL
 
-## Référence analysée
+## Concept
 
-Site analysé : `https://copula.agency/`
+**Mission control, sans folklore spatial.** La métaphore orbitale matérialise un écosystème Salesforce dont les briques restent alignées autour du métier du client. Elle guide l’illustration, les micro-mouvements et la structure, sans masquer le contenu.
 
-Analyse effectuée : HTML public, extraction DOM via Playwright, screenshots desktop/mobile et inspection visuelle.
+## Système visuel
 
-## Ce qui ressort de Copula
+- Fond crème pour la clarté et la proximité.
+- Noir en sections de conviction et de conversion.
+- Cobalt pour la maîtrise technique et la trajectoire.
+- Vert acide utilisé comme signal d’action, jamais comme décoration généralisée.
+- Manrope pour les titres, DM Sans pour l’interface et le texte.
+- Photographies techniques recadrées comme preuves d’exécution, complétées par une illustration orbitale originale.
 
-- Direction artistique très agence : peu d’effets, beaucoup d’espace, typographie géante.
-- Palette courte : fond crème, noir, couleur vive principale, accent CTA.
-- Sections éditoriales très nettes : label court + grand statement + contenu réduit.
-- Services traités en lignes typographiques plutôt qu’en cartes SaaS génériques.
-- Copywriting direct, manifeste, orienté positionnement.
-- Rythme vertical fort : blocs contrastés, changements nets de fond, pas de surcharge visuelle.
+## Principes UX
 
-## Adaptation pour Rocket Science SRL
+- Une promesse visible dès le premier écran.
+- Six expertises lisibles sans jargon excessif.
+- Une méthode en quatre étapes.
+- Deux offres comparables, sans prix fictif et toujours orientées vers un devis.
+- Un parcours de contact unique et pré-rempli depuis chaque offre.
+- Pas de logos clients, statistiques, témoignages, certifications ou affiliations non vérifiés.
+- Navigation au clavier, focus visible, menu mobile, réduction des mouvements et mise en page sans débordement.
 
-Le nouveau design ne copie pas Copula, mais reprend les principes adaptés à une TPE belge Salesforce :
+## Sources métier
 
-- Ton plus sobre et opérationnel.
-- Palette : crème / noir / bleu cobalt / vert acide.
-- Typographie Inter, très lourde sur les titres, lisible sur le corps.
-- Hero agency : “Salesforce, sans friction.”
-- Suppression du rendu “AI SaaS template” : moins de gradients décoratifs, moins de cartes, moins d’icônes.
-- Services en lignes premium, méthode en blocs éditoriaux, CTA très net.
+Le périmètre des clouds suit les descriptions publiques de Salesforce : Sales Cloud, Service Cloud, Marketing Cloud et Data 360. La sécurité renvoie vers Salesforce Trust. Les données légales de Rocket Science SRL sont celles déjà vérifiées dans le projet auprès de la BCE : BE 0835.698.352, Groendreef 6, 9810 Nazareth-De Pinte.
 
-## Règles éditoriales
+## Médias
 
-- Aucun faux témoignage.
-- Aucun logo client.
-- Aucune certification Salesforce non vérifiée.
-- Aucun chiffre inventé.
-- Les infos Salesforce restent basées sur le brief client, pas présentées comme preuve publique.
-
-## Données vérifiées
-
-Sources :
-
-- BCE Public Search : `https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer=0835698352&lang=fr`
-- Companyweb : `https://www.companyweb.be/fr/0835698352/rocket-science`
-
-Confirmé :
-
-- Dénomination : ROCKET SCIENCE
-- Numéro d’entreprise / TVA : BE 0835.698.352
-- Statut : actif
-- Date de début : 13 avril 2011
-- Siège : Groendreef 6, 9810 Nazareth-De Pinte, Belgique
-- Forme légale : Société à responsabilité limitée
-- Administrateur public BCE : Matthias Stevens
-- Activités TVA : conseil informatique / gestion d’installations informatiques + soutien aux entreprises
-
-Non trouvé publiquement :
-
-- Email
-- Téléphone
-- Site officiel
-- LinkedIn confirmé
-- Certification Salesforce
-- Références clients
-
-
-## Images libres de droit
-
-Le site utilise des visuels abstraits SVG créés pour le projet et trois photos distantes issues d’Unsplash, utilisées sous Unsplash License :
-
-- `photo-1552664730-d307ca884978` — atelier / cadrage équipe
-- `photo-1460925895917-afdab827c52f` — analytics / dashboard
-- `photo-1551434678-e076c223a692` — travail d’équipe / organisation
-
-À remplacer par des photos client si Rocket Science SRL fournit des visuels propriétaires.
-
-
-## Actualisation direction artistique mobile / Copula-inspired
-
-La version actuelle reprend des principes visibles dans les références fournies sans copier les assets : grands aplats de couleur, typographie très large, labels en enfilade, barre verticale latérale, photo découpée en forme organique, CTA en blob, copywriting minimal et sections plus visuelles que textuelles.
-
-
-## Anti-référence validée par le client
-
-À éviter explicitement : rendu type application sombre avec header compact, liste verticale de problèmes en lignes séparées, icônes check vertes et esthétique “task/checklist”.
-
-Conséquence design : les douleurs client restent traitées comme typographie éditoriale grand format ou comme séquences visuelles, sans bullet points, sans checkmarks, sans UI de dashboard sombre générique.
+Les photos sont documentées dans \`MEDIA_LICENSES.md\`. Les anciennes photos distantes et la dépendance à leur CDN ont été supprimées de l’interface.
