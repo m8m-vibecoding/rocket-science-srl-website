@@ -46,7 +46,7 @@ function Eyebrow({ children, light = false }: { children: ReactNode; light?: boo
 }
 
 function BrandMark() {
-  return <span className="brand-mark" aria-hidden="true"><span className="brand-mark__orbit" /><span className="brand-mark__core" /></span>;
+  return <span className="brand-mark" aria-hidden="true"><img src="/rocket-science-logo.png" alt="" /></span>;
 }
 
 function Header() {
